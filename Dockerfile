@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright/dotnet:v1.46.0-noble
+FROM mcr.microsoft.com/playwright/dotnet:v1.46.0-jammy
 
 RUN install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
