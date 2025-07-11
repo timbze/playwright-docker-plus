@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright/dotnet:v1.49.0-noble
+FROM mcr.microsoft.com/playwright/dotnet:v1.53.0-noble
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
     # install dotnet 9.0
     # if the playwright docker image had dotnet 9.0 version installed that would be better, but it's STS and they won't update for 9.0
     # https://github.com/microsoft/playwright-dotnet/pull/3077#issuecomment-2532370021
-    curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --install-dir /usr/share/dotnet --channel 9.0 && \
+    curl -sSL https://raw.githubusercontent.com/dotnet/install-scripts/refs/heads/main/src/dotnet-install.sh | bash -s -- --install-dir /usr/share/dotnet --channel 9.0 && \
     bash /tmp/nodesource_setup.sh && \
     rm /tmp/nodesource_setup.sh && \
     apt update && \
