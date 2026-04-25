@@ -15,7 +15,7 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
     apt install -y --no-install-recommends nodejs openssl docker-ce-cli && \
     apt clean && \
     npm install -D tailwindcss@^4 && \
-    npm install -g pnpm
+    npm install -g pnpm && \
     rm -rf /var/lib/apt/lists/*
 
 COPY . .
