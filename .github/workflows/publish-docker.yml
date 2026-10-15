@@ -9,6 +9,21 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Pick image variant
+        id: variant
+        run: |
+          # Tags ending in -dotnet11 (e.g. v1.1-dotnet11) publish :dotnet11 with the .NET 11 SDK added.
+          # Every other v* tag publishes :latest exactly as before.
+          if [[ "$GITHUB_REF_NAME" == *-dotnet11 ]]; then
+            echo "tag=timbze/playwright-docker-plus:dotnet11" >> "$GITHUB_OUTPUT"
+            echo "build_args<<EOF" >> "$GITHUB_OUTPUT"
+            echo "DOTNET_CHANNEL=11.0" >> "$GITHUB_OUTPUT"
+            echo "DOTNET_QUALITY=preview" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=timbze/playwright-docker-plus:latest" >> "$GITHUB_OUTPUT"
+            echo "build_args=" >> "$GITHUB_OUTPUT"
+          fi
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -22,4 +37,5 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: timbze/playwright-docker-plus:latest
+          tags: ${{ steps.variant.outputs.tag }}
+          build-args: ${{ steps.variant.outputs.build_args }}
