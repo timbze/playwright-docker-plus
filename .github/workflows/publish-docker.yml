@@ -14,14 +14,16 @@ jobs:
         run: |
           # Tags ending in -dotnet11 (e.g. v1.1-dotnet11) publish :dotnet11 with the .NET 11 SDK added.
           # Every other v* tag publishes :latest exactly as before.
+          # Each build is also pushed under the git tag's name (e.g. :v1.1-dotnet11). CI should use that tag:
+          # it never changes, so a runner that does not force-pull cannot keep using an old cached image.
           if [[ "$GITHUB_REF_NAME" == *-dotnet11 ]]; then
-            echo "tag=timbze/playwright-docker-plus:dotnet11" >> "$GITHUB_OUTPUT"
+            echo "tag=timbze/playwright-docker-plus:dotnet11,timbze/playwright-docker-plus:$GITHUB_REF_NAME" >> "$GITHUB_OUTPUT"
             echo "build_args<<EOF" >> "$GITHUB_OUTPUT"
             echo "DOTNET_CHANNEL=11.0" >> "$GITHUB_OUTPUT"
             echo "DOTNET_QUALITY=preview" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
           else
-            echo "tag=timbze/playwright-docker-plus:latest" >> "$GITHUB_OUTPUT"
+            echo "tag=timbze/playwright-docker-plus:latest,timbze/playwright-docker-plus:$GITHUB_REF_NAME" >> "$GITHUB_OUTPUT"
             echo "build_args=" >> "$GITHUB_OUTPUT"
           fi
       - name: Set up QEMU
