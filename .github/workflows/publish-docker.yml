@@ -20,7 +20,6 @@ jobs:
             echo "tag=timbze/playwright-docker-plus:dotnet11,timbze/playwright-docker-plus:$GITHUB_REF_NAME" >> "$GITHUB_OUTPUT"
             echo "build_args<<EOF" >> "$GITHUB_OUTPUT"
             echo "DOTNET_CHANNEL=11.0" >> "$GITHUB_OUTPUT"
-            echo "DOTNET_QUALITY=preview" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
           else
             echo "tag=timbze/playwright-docker-plus:latest,timbze/playwright-docker-plus:$GITHUB_REF_NAME" >> "$GITHUB_OUTPUT"
